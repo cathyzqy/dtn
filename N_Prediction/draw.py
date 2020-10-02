@@ -4,23 +4,23 @@ import os
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FuncFormatter
 
-#draw rmse
-# datarsme = pd.read_csv('D:/N_Prediction/data/real-time/feature/rmset.csv')
-# data= [datarsme['rmse'].iloc[0],datarsme['rmse'].iloc[1],datarsme['rmse'].iloc[2],datarsme['rmse'].iloc[3],
-#                   datarsme['rmse'].iloc[4],datarsme['rmse'].iloc[5],datarsme['rmse'].iloc[6],datarsme['rmse'].iloc[7],
-#                   datarsme['rmse'].iloc[8],datarsme['rmse'].iloc[9],datarsme['rmse'].iloc[10]]
-# tick_label = ["8","10", "20", "30", "40", "50", "60", "70", "80", "90","100"]
-# index = np.arange(len(tick_label))
-# bar_width = 0.4
-# for a,b in zip(index,data):
-#  plt.text(a,b, str('{:.2f}'.format(b)), ha='center',va='bottom',fontsize=7)
-# plt.bar(index, data, bar_width, color="g", align="center",tick_label = tick_label)
-# plt.legend(['rmse'])
-# plt.xlabel("Num_workers")
-# plt.ylabel("Real-time rmse")
-# plt.title("Real-time RMSE")
-# plt.savefig('D:/N_Prediction/data/compare/picture/all_rmse.jpg',dpi = 600)
-# plt.show()
+draw rmse
+datarsme = pd.read_csv('D:/N_Prediction/data/real-time/feature/rmset.csv')
+data= [datarsme['rmse'].iloc[0],datarsme['rmse'].iloc[1],datarsme['rmse'].iloc[2],datarsme['rmse'].iloc[3],
+                  datarsme['rmse'].iloc[4],datarsme['rmse'].iloc[5],datarsme['rmse'].iloc[6],datarsme['rmse'].iloc[7],
+                  datarsme['rmse'].iloc[8],datarsme['rmse'].iloc[9],datarsme['rmse'].iloc[10]]
+tick_label = ["8","10", "20", "30", "40", "50", "60", "70", "80", "90","100"]
+index = np.arange(len(tick_label))
+bar_width = 0.4
+for a,b in zip(index,data):
+ plt.text(a,b, str('{:.2f}'.format(b)), ha='center',va='bottom',fontsize=7)
+plt.bar(index, data, bar_width, color="g", align="center",tick_label = tick_label)
+plt.legend(['rmse'])
+plt.xlabel("Num_workers")
+plt.ylabel("Real-time rmse")
+plt.title("Real-time RMSE")
+plt.savefig('D:/N_Prediction/data/compare/picture/all_rmse.jpg',dpi = 600)
+plt.show()
 
 
 # draw predictiontime
