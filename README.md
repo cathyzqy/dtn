@@ -1,7 +1,7 @@
 # DTN-dynamic
 ## Train the model
 
-1. The dataset in /N_Prediction/data/historical/rawdata/nomaldata/15s. First you need run BILSTM.py to train the model to get the first real-time prediction model. Then you can use the increase_BILSTM.py to train the model with incremental training.
+1. The dataset to train real-time model in /N_Prediction/data/historical/rawdata/nomaldata/15s. First you need run BILSTM.py to train the model to get the first real-time prediction model. Then you can use the increase_BILSTM.py to train the model with incremental training.
 2. To train the optimization model we need to combine all data. The dataset in /N_Prediction/data/historical/rawdata/packtlossdata/all.csv. You can use N_XGBoost.py to train the model. 
 
 ## Do the transfer
