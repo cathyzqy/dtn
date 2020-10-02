@@ -112,13 +112,13 @@ def get_N(real_data):
 
     findmax = newfind[np.argsort(-newfind[:, 0])]
 
-    minpackloss = np.amin(findmax[:20, 1])
+    minpackloss = np.amin(findmax[:10, 1])
     toppackloss = findmax[0, 1]
 
     maxthroughput = findmax[0, 0]
     maxindex = findmax[0, 2]
 
-    minpackindex = np.where(findmax[:20, 1] == np.amin(findmax[:20, 1]))[0][0]
+    minpackindex = np.where(findmax[:10, 1] == np.amin(findmax[:10, 1]))[0][0]
     matchthroughput = findmax[minpackindex, 0]
     matchindex = findmax[minpackindex, 2]
 
