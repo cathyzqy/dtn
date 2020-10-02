@@ -1,4 +1,4 @@
-# dtn
+# DTN-dynamic
 ## Train the model
 
 1. The dataset in /N_Prediction/data/historical/rawdata/nomaldata/15s. First you need run BILSTM.py to train the model to get the first real-time prediction model. Then you can use the increase_BILSTM.py to train the model with incremental training.
