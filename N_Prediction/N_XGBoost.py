@@ -53,15 +53,6 @@ def xgb_train(x, y, xpred):
 
     predictiontp = booster.predict(X_test)
 
-    score = explained_variance_score(predictiontp,y_test) #解释回归模型的方差得分，其值取值范围是[0,1]，越接近于1说明自变量越能解释因变量
-                                                         #的方差变化，值越小则说明效果越差。
-    score_mae= mean_absolute_error(predictiontp,y_test)  #平均绝对误差（Mean Absolute Error，MAE），用于评估预测结果和真实数据集的接近程度的程度
-                                                        #其其值越小说明拟合效果越好
-    score_mse= mean_squared_error(predictiontp,y_test)    #均方差（Mean squared error，MSE），该指标计算的是拟合数据和原始数据对应样本点的误差的平方和的均值，
-                                                        #其值越小说明拟合效果越好。
-    scorer2 = r2_score(predictiontp,y_test)               #判定系数，其含义是也是解释回归模型的方差得分，其值取值范围是[0, 1]，越接近于1说明自变量越能解释因
-                                                       #变量的方差变化，值越小则说明效果越差。
-
     rmse_score = mean_squared_error(y_test, predictiontp, squared=False)
 
     y_pred = booster.predict(xpred)
@@ -115,20 +106,41 @@ def get_N(real_data):
 
     model = pickle.load(open("D:/N_Prediction/model/xgboost/xgnt_packet.dat", "rb"))
     y_pred = model.predict(xpred)
-    ypred_tp = y_pred[:,0]*1000000000 - y_pred[:,1]*10
-    max_indtp = np.where(ypred_tp == np.amax(ypred_tp))[0][0]
-    max_ind = np.where(y_pred[:, 0] == np.amax(y_pred[:, 0]))[0][0]
 
+    index = np.array([i for i in range(0, 404)])
+    newfind = np.c_[y_pred, index]
 
+    findmax = newfind[np.argsort(-newfind[:, 0])]
+
+    minpackloss = np.amin(findmax[:20, 1])
+    toppackloss = findmax[0, 1]
+
+    maxthroughput = findmax[0, 0]
+    maxindex = findmax[0, 2]
+
+    minpackindex = np.where(findmax[:20, 1] == np.amin(findmax[:20, 1]))[0][0]
+    matchthroughput = findmax[minpackindex, 0]
+    matchindex = findmax[minpackindex, 2]
+
+    if (maxthroughput - matchthroughput) < 0.001:
+        if (toppackloss - minpackloss) > 0.2:
+            choose = [matchthroughput, minpackloss, matchindex]
+    else:
+        choose = [maxthroughput, toppackloss, maxindex]
+
+    max_indtp = choose[2]
+
+    max_indt = np.where(y_pred[:, 0] == np.amax(y_pred[:, 0]))[0][0]
+    
     xgb_max_pred = xpred.loc[max_indtp]['num_workers']
     return xgb_max_pred
 
 # get_N('D:/N_Prediction/data/real-time/feature/8/8_0/8_real.csv')
 
 if __name__ == '__main__':
-    path_modeldata = 'D:/谷歌下载/datageneration/packtest/all.csv'
-    path_realdata = 'D:/N_Prediction/data/real-time/feature/55_srealreal.csv'
-    path_adddata =  'D:/N_Prediction/data/real-time/feature/8/8_3/8_reala.csv'
+    path_modeldata = 'D:/N_Prediction/data/historical/rawdata/packtlossdata/all.csv'
+    path_realdata = 'D:/N_Prediction/data/real-time/feature/10/10_2/10_real.csv'
+    path_adddata =  'D:/N_Prediction/data/real-time/feature/10/10_2/10_reala.csv'
 
 
     add_num(path_realdata,path_adddata)
@@ -154,10 +166,31 @@ if __name__ == '__main__':
 
     xgb_score, ypredtp = xgb_train(x_s1, y1, xpred1)
 
-    npacket = ypredtp[:, 0]*10000000 - ypredtp[:, 1]*10
+    index = np.array([i for i in range(0, 404)])
+    newfind = np.c_[ypredtp,index]
+
+    findmax = newfind[np.argsort(-newfind[:, 0])]
+
+
+    minpackloss = np.amin(findmax[:20,1])
+    toppackloss = findmax[0,1]
+
+    maxthroughput = findmax[0,0]
+    maxindex = findmax[0,2]
+
+    minpackindex = np.where(findmax[:20, 1] == np.amin(findmax[:20, 1]))[0][0]
+    matchthroughput = findmax[minpackindex,0]
+    matchindex = findmax[minpackindex,2]
+
+    if (maxthroughput - matchthroughput) < 0.001:
+        if (toppackloss - minpackloss) > 0.2:
+            choose = [matchthroughput, minpackloss,matchindex]
+    else:
+        choose = [maxthroughput, toppackloss,maxindex]
+
+    max_indtp = choose[2]
 
     max_indt = np.where(ypredtp[:, 0] == np.amax(ypredtp[:, 0]))[0][0]
 
-    max_indtp = np.where(npacket == np.amax(npacket))[0][0]
     xgb_max_pred = xpred1.loc[max_indtp]['num_workers']
     print(xgb_max_pred)
