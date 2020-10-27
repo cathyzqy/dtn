@@ -177,3 +177,29 @@ plt.show()
 # plt.savefig('D:/N_Prediction/data/compare/picture/allnum_cpu.eps')
 # plt.show()
 
+s1 = [-0.043, -0.035, -0.037]
+s2 = [0.078, 0.089, 0.096]
+s12 = [0.035, 0.054, 0.059]
+s3 = [-0.016, -0.132, -0.035]
+s4 = [0.162, 0.187, 0.178]
+s34 = [0.146, 0.055, 0.143]
+s5 = [-0.100, -0.140, -0.137]
+s6 = [0.243, 0.214, 0.213]
+s56 = [0.143, 0.074, 0.076]
+data = pd.DataFrame({
+    "1e4(first)": s1,
+    "1e4(second)": s2,
+    "1e4(total)": s12,
+    "2e4(first)": s3,
+    "2e4(second)": s4,
+    "2e4(total)": s34,
+    "3e4(first)": s5,
+    "3e4(second)": s6,
+    "3e4(total)": s56
+})
+data.boxplot()
+plt.ylabel("Time reduced proportion")
+plt.xlabel("Second transfer size")
+plt.title("30% to 70% of workers compared to 50% to 50% of workers")
+# plt.savefig('D:/N_Prediction/data/compare/picture/two transfer.jpg')
+plt.show()
